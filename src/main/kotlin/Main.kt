@@ -1,10 +1,23 @@
 import kotlinx.coroutines.*
 
-fun main() = runBlocking {
-    launch {
-        delay(1000)
-        println("Salom Alimardon")
+@OptIn(DelicateCoroutinesApi::class)
+fun main() {
+    GlobalScope.launch {
+        task2()
     }
+    task1()
+    Thread.sleep(2000L)
+}
 
-    println("Xayr Alimardon --> ${coroutineContext.job.isCancelled}")
+fun task1() {
+    print("Hello ")
+    print(Thread.currentThread().name)
+}
+
+suspend fun task2() {
+    withContext(Dispatchers.IO) {
+        delay(1000L)
+        print("World!")
+        print(Thread.currentThread().name)
+    }
 }
